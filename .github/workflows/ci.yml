@@ -10,9 +10,10 @@ permissions:
   contents: read
 
 # One run per ref at a time: the self-hosted runner shares a RAM-constrained dev host.
+# Only superseded PR runs are cancelled; every push to main must finish so each main SHA has a CI result.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   verify:
@@ -24,11 +25,19 @@ jobs:
       # actions/checkout v7.0.1
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          # Test the exact PR head SHA, not the synthetic merge ref; pushes use the pushed SHA.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - run: |
           node --version
           npm --version
+          git rev-parse HEAD
+      - name: secret scan
+        run: npm run secret-scan
       - run: npm ci
+      # Highs/moderates are risk-accepted for the local MVP (APR-DTD-SUPPLY-01); any critical fails.
+      - name: dependency audit (critical)
+        run: npm audit --audit-level=critical
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
