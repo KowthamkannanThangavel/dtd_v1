@@ -1,0 +1,2 @@
+# Normalize text to LF in the repo and working tree; git auto-detects binaries.
+* text=auto eol=lf
