@@ -1,0 +1,25 @@
+{
+  "name": "@dtd/tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DairyToDoor design tokens generated from tokens.json (TS for React Native, CSS custom properties for admin web)",
+  "main": "generated/tokens.ts",
+  "types": "generated/tokens.ts",
+  "exports": {
+    ".": "./generated/tokens.ts",
+    "./tokens.css": "./generated/tokens.css",
+    "./tokens.json": "./tokens.json"
+  },
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/generate.mjs --check && node --test \"test/*.test.mjs\""
+  },
+  "devDependencies": {
+    "eslint": "^9.39.5",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.0"
+  }
+}
