@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "DairyToDoor Delivery",
+    "slug": "dairytodoor-delivery",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "android": {
+      "package": "com.dairytodoor.delivery"
+    }
+  }
+}
