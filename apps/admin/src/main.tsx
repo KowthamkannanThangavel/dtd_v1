@@ -1,3 +1,5 @@
+import '@dtd/tokens/tokens.css';
+
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
