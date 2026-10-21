@@ -27,6 +27,11 @@ Run one app: `npm start -w @dtd/customer` (or `@dtd/delivery`), or `npm run dev 
 
 Copy `.env.example` to `.env` for local configuration; `.env` is never committed.
 
-CI (`.github/workflows/ci.yml`, check name `verify`) runs the same commands on the local self-hosted runner for every pull request.
+CI (`.github/workflows/ci.yml`, check name `verify`) runs the same commands on the local self-hosted runner for every pull request (at the PR head SHA) and every push to `main`, plus:
+
+- `npm run secret-scan`: dependency-free scan of tracked files for private keys, common provider tokens, URL passwords and tracked `.env` files (`scripts/secret-scan.mjs`).
+- `npm audit --audit-level=critical`: fails on critical advisories; known highs are risk-accepted for the local MVP only.
+
+Lint fails on any warning (`--max-warnings 0`). `npm test` also runs the repo script tests (`node --test scripts/*.test.mjs`).
 
 Changes reach `main` only through pull requests.
